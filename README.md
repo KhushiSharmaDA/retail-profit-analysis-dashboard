@@ -1,38 +1,51 @@
-# Superstore-Task-2
-**Profit Is Hiding in Plain Sight — Products & Regions Killing Growth**  
-Superstore Sales Dashboard — Data Analyst Internship Task 2
+# Retail Profit Analysis Dashboard (Superstore)
 
----
+**Profit is hiding in plain sight — identifying the products and regions killing growth.**
 
-## Project summary
-This repository contains the Power BI dashboard, dataset, and supporting files for Task 2: visual storytelling using Superstore sales data. The dashboard uncovers products and regions that generate high sales but low or negative profit, and analyzes the impact of discounts on profitability.
+A Power BI dashboard analyzing Superstore sales data to uncover which products and regions generate high sales but low or negative profit, and how discounting drives losses.
 
----
+## Key Insights
+
+1. Several high-sales products are actually loss-making — high revenue does not mean high profit
+2. A handful of states contribute significant revenue but generate minimal profit
+3. Deep discounting strongly correlates with negative profit margins
+4. The top 10 loss-making products account for the majority of total losses — strong candidates for repricing or delisting
 
 ## Contents
-- `Superstore_Task2.pbix` — Power BI report file (or link if file is large)
-- `data/cleaned_superstore.csv` — cleaned dataset used for the dashboard
-- `visuals/` — screenshots of the dashboard
-- `docs/Task2_Report.pdf` — PDF export with the executive summary & recommendations
-- `DAX/measures.txt` — all DAX measures used
+
+- `superstore-profit-dashboard.pbix` — Power BI report file (open in Power BI Desktop)
+- `cleaned_superstore.xlsx` — cleaned dataset used to build the dashboard
+- `dax-measures.txt` — all DAX measures used in the report
 - `summary_changes.md` — data cleaning steps and assumptions
 
----
+## How to View
 
-## Key insights (top-level)
-1. Several high-sales products are loss-making (danger zone).  
-2. Certain states contribute significant revenue but generate minimal profit.  
-3. Deep discounting strongly correlates with negative profit.  
-4. Top 10 loss-making products represent the majority of losses — candidate for repricing or removal.
+Download `superstore-profit-dashboard.pbix` and open it in [Power BI Desktop](https://www.microsoft.com/en-us/power-platform/products/power-bi/downloads) (free). If you don't have Power BI installed, see the DAX measures and cleaning summary below for the underlying logic.
 
----
+## DAX Measures (Highlights)
 
-## How to view
-- If `Superstore_Task2.pbix` is present: download and open in Power BI Desktop.  
-- If PBIX is too large, download `docs/Task2_Report.pdf` or view screenshots in `visuals/`.
+Full list in `dax-measures.txt`. Core measures:
 
----
+```dax
+Total Sales = SUM('Superstore'[sales])
+Total Profit = SUM('Superstore'[profit])
+Profit Margin % = DIVIDE([Total Profit], [Total Sales], 0)
 
-## DAX measures (highlights)
-See `DAX/measures.txt` for full code. Example measures:
+Loss Amount =
+SUMX(
+    FILTER('Superstore', 'Superstore'[profit] < 0),
+    'Superstore'[profit]
+)
 
+Avg Discount - Loss =
+CALCULATE(AVERAGE('Superstore'[discount]), 'Superstore'[profit] < 0)
+
+Avg Discount - Profit =
+CALCULATE(AVERAGE('Superstore'[discount]), 'Superstore'[profit] >= 0)
+```
+
+These measures power the comparison between discount levels on profitable vs. loss-making orders — the core insight of the dashboard.
+
+## Data Cleaning
+
+See `summary_changes.md` for full details. Summary: fixed data types across all date/numeric columns, standardized text casing in state/city/sub-category fields, removed unused columns (row_id, weeknum, market2), and added derived Profit Margin % and Loss Amount columns via DAX.
