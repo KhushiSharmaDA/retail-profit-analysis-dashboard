@@ -1,19 +1,29 @@
 # Retail Profit Analysis Dashboard (Superstore)
 
+![Retail Profit Dashboard](./retail-profit-dashboard.png)
+
 **Profit is hiding in plain sight — identifying the products and regions killing growth.**
 
 A Power BI dashboard analyzing Superstore sales data to uncover which products and regions generate high sales but low or negative profit, and how discounting drives losses.
 
+## Key Metrics (from dashboard)
+- **Total Sales**: 3M
+- **Total Profit**: 0.41M
+- **Profit Margin %**: 0.12 (12%)
+- **Total Loss** (from loss-making products): -0.10M
+
 ## Key Insights
 
 1. Several high-sales products are actually loss-making — high revenue does not mean high profit
-2. A handful of states contribute significant revenue but generate minimal profit
-3. Deep discounting strongly correlates with negative profit margins
-4. The top 10 loss-making products account for the majority of total losses — strong candidates for repricing or delisting
+2. Profit is split almost evenly across all three categories (Office Supplies, Furniture, Technology each ~33%), despite very different sales volumes per category
+3. Office Supplies carries the highest average discount of the three categories, directly linked to its thinner margins
+4. The "High Sales, Low Profit" scatter view highlights specific sub-categories (e.g. Bookcases, Tables) that generate strong sales but contribute disproportionately little profit — strong candidates for repricing
+5. A handful of states contribute significant revenue but generate minimal profit, visible on the geographic profit map
 
 ## Contents
 
 - `superstore-profit-dashboard.pbix` — Power BI report file (open in Power BI Desktop)
+- `retail-profit-dashboard.png` — dashboard screenshot
 - `cleaned_superstore.xlsx` — cleaned dataset used to build the dashboard
 - `dax-measures.txt` — all DAX measures used in the report
 - `summary_changes.md` — data cleaning steps and assumptions
